@@ -1,0 +1,297 @@
+<div>
+    <nb-alert status="danger" *ngIf="!projectId">You are not assigned to any organization. Please contact your admin.
+    </nb-alert>
+</div>
+<!-- PANEL -->
+<smooth-dnd-container *ngIf="!mobileView" [orientation]="'horizontal'">
+    <smooth-dnd-draggable style="padding: 0.2rem; width: 25%;" *ngFor="let column of scene?.children">
+        <nb-card style="padding: 0.8rem;">
+            <div>
+                <div style="font-weight: 600;">
+                    <span>{{column.name}}</span>
+                    <button *ngIf="column.name === 'To-Do'" class="ml-2" size="tiny" (click)="addNote(column)" outline
+                        nbTooltip="Add Note" nbTooltipPlacement="bottom" nbTooltipStatus="primary" nbButton
+                        status="primary">
+                        <nb-icon icon="checkmark-square-outline"
+                            [icon]="addNoteEnable ? 'checkmark-outline' : 'edit-outline'"></nb-icon>
+                    </button>
+                </div>
+                <!-- CARDS -->
+                <smooth-dnd-container [groupName]="'col'" (drop)="onCardDrop(column.id, $event)"
+                    [getChildPayload]="getCardPayload(column.id)" [dragClass]="'card-ghost'"
+                    [dropClass]="'card-ghost-drop'">
+                    <smooth-dnd-draggable style="border-left-width: 0.2rem; cursor: grab;"
+                        *ngFor="let card of column.children">
+                        <nb-card class="card-border mt-2" [ngClass]="{
+                            'card-border-success': card.priority === 'LOW', 
+                            'card-border-info': card.priority === 'MEDIUM', 
+                            'card-border-warning': card.priority === 'HIGH',
+                            'card-border-urgent': card.priority === 'URGENT'} ">
+                            <form #todoForm="ngForm" style="margin-bottom: -5px;">
+                                <div class="mb-1 mt-1">
+                                    <div>
+                                        <span class="ml-2 card-sub-header-text color-dull">Created &nbsp;</span>
+                                        <span class="time-header">{{card?.createdOn | timeAgo}}</span>
+                                    </div>
+                                    <div>
+                                        <img [nbTooltip]="card.raisedBy" nbTooltipPlacement="bottom"
+                                            nbTooltipStatus="info" style="border-radius: 5px ;" width="30px"
+                                            [src]="employee?.photoUrl ? employee.photoUrl : '../../../../assets/images/default-img.png'"
+                                            alt="">
+                                        <span
+                                            style="color: blue; font-weight: bold;">&nbsp;&LeftArrowRightArrow;&nbsp;</span>
+                                        <img class="ml-1" [nbTooltip]="card.assignedFirstName"
+                                            nbTooltipPlacement="bottom" nbTooltipStatus="info"
+                                            style="border-radius: 5px ;" width="30px"
+                                            [src]="card?.photoUrl ? card.photoUrl : '../../../../assets/images/default-img.png'"
+                                            alt="">
+                                        <!-- TODO: Need to enable based on requirement -->
+                                        <!-- <button class="ml-1" nbButton size="small">{{card.id}}</button> -->
+                                        <button *ngIf="card.enableEdit && (card.data === 'new')" class="ml-1"
+                                            (click)="clearNote()" size="small" nbButton status="basic"
+                                            nbTooltip="Remove Note" nbTooltipPlacement="bottom"
+                                            nbTooltipStatus="danger">
+                                            <nb-icon status="danger" [icon]="'close-square-outline'">
+                                            </nb-icon>
+                                        </button>
+                                        <button *ngIf="card.enableEdit && !(card.data === 'new')" class="ml-1"
+                                            (click)="editNote(card)" size="small" nbButton status="basic"
+                                            nbTooltip="Edit Note" nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                            <nb-icon status="primary" [icon]="'checkmark-outline'">
+                                            </nb-icon>
+                                        </button>
+                                        <button *ngIf="!card.enableEdit && !(card.data === 'new')"
+                                            (click)="enableEdit(card)" class="ml-1" size="small" nbButton status="basic"
+                                            nbTooltip="Edit Note" nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                            <nb-icon status="primary" [icon]="'edit-outline'">
+                                            </nb-icon>
+                                        </button>
+                                        <button *ngIf="card.enableEdit && !(card.data === 'new')"
+                                            (click)="closeEdit(card)" class="ml-1" size="small" nbButton status="basic"
+                                            nbTooltip="Clear Edit" nbTooltipPlacement="bottom"
+                                            nbTooltipStatus="primary">
+                                            <nb-icon status="primary" [icon]="'close-square-outline'">
+                                            </nb-icon>
+                                        </button>
+                                        <button *ngIf="!(card.data === 'new')" (click)="deleteNote(card)"
+                                            class="ml-1 mr-1" size="small" nbButton status="basic"
+                                            nbTooltip="Delete Note" nbTooltipPlacement="bottom"
+                                            nbTooltipStatus="danger">
+                                            <nb-icon status="danger" icon="archive-outline"></nb-icon>
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <textarea [ngStyle]="{'color': card.enableEdit? '#3636e6' : '#000000'}"
+                                        [disabled]="!(card.enableEdit)"
+                                        style="font-size: 14px; font-weight: 300; line-height: 20px; margin-bottom: -7px;"
+                                        nbInput fullWidth placeholder="Add Note" [(ngModel)]="card.description">
+                                    </textarea>
+                                </div>
+                                <div class="mb-1 ml-1 mt-1">
+                                    <!-- FOR NEW CARD -->
+                                    <div *ngIf="card.enableEdit && card.data === 'new'">
+                                        <div style="display: inline;">
+                                            <input style="max-width: 7rem !important;" fieldSize="tiny" status="success"
+                                                nbInput type="text" [ngModel]="value"
+                                                (ngModelChange)="onModelChange($event)" placeholder="Assign To"
+                                                [nbAutocomplete]="autoNgModel" />
+                                            <nb-autocomplete #autoNgModel>
+                                                <nb-option *ngFor="let option of filteredNgModelOptions$ | async"
+                                                    [value]="option.firstName">
+                                                    {{ option.firstName }} {{ option.lastName }}
+                                                </nb-option>
+                                            </nb-autocomplete>
+                                        </div>
+                                        <div class="ml-1" style="display: inline;">
+                                            <nb-select style="max-width: 6rem !important;" size="tiny" status="warning"
+                                                name="priority" [(ngModel)]="card.priority" placeholder="Priority"
+                                                fullWidth>
+                                                <nb-option value="LOW">Low</nb-option>
+                                                <nb-option value="MEDIUM">Medium</nb-option>
+                                                <nb-option value="HIGH">High</nb-option>
+                                                <nb-option value="URGENT">Urgent</nb-option>
+                                            </nb-select>
+                                        </div>
+                                    </div>
+                                    <!-- TO EDIT CARD -->
+                                    <div *ngIf="card.enableEdit && card.data !== 'new'">
+                                        <div style="display: inline;">
+                                            <input style="max-width: 7rem !important;" fieldSize="tiny" status="success"
+                                                nbInput type="text" (ngModelChange)="onModelChange($event)"
+                                                placeholder="Assign To" [nbAutocomplete]="autoNgModelEdit" />
+                                            <nb-autocomplete (selectedChange)="onModelChange($event)" #autoNgModelEdit>
+                                                <nb-option *ngFor="let option of filteredNgModelOptions$ | async"
+                                                    [value]="option.firstName">
+                                                    {{ option.firstName }} {{ option.lastName }}
+                                                </nb-option>
+                                            </nb-autocomplete>
+                                        </div>
+                                        <div class="ml-1" style="display: inline;">
+                                            <nb-select style="max-width: 6rem !important;" size="tiny" status="warning"
+                                                name="priority" [(ngModel)]="card.priority" placeholder="Priority"
+                                                fullWidth>
+                                                <nb-option value="LOW">Low</nb-option>
+                                                <nb-option value="MEDIUM">Medium</nb-option>
+                                                <nb-option value="HIGH">High</nb-option>
+                                                <nb-option value="URGENT">Urgent</nb-option>
+                                            </nb-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </nb-card>
+                    </smooth-dnd-draggable>
+                </smooth-dnd-container>
+            </div>
+        </nb-card>
+    </smooth-dnd-draggable>
+</smooth-dnd-container>
+
+<!-- MOBILE-VIEW -->
+<smooth-dnd-container *ngIf="mobileView" [orientation]="'vertical'">
+    <smooth-dnd-draggable style="padding: 0.2rem;" *ngFor="let column of scene?.children">
+        <nb-card style="padding: 0.8rem;">
+            <div>
+                <div style="font-weight: 600;">
+                    <span>{{column.name}}</span>
+                    <button *ngIf="column.name === 'To-Do'" class="ml-2" size="tiny" (click)="addNote(column)" outline
+                        nbTooltip="Add Note" nbTooltipPlacement="bottom" nbTooltipStatus="primary" nbButton
+                        status="primary">
+                        <nb-icon icon="checkmark-square-outline"
+                            [icon]="addNoteEnable ? 'checkmark-outline' : 'edit-outline'"></nb-icon>
+                    </button>
+                </div>
+                <!-- CARDS -->
+                <smooth-dnd-container [groupName]="'col'" (drop)="onCardDrop(column.id, $event)"
+                    [getChildPayload]="getCardPayload(column.id)" [dragClass]="'card-ghost'"
+                    [dropClass]="'card-ghost-drop'">
+                    <smooth-dnd-draggable style="border-left-width: 0.2rem; cursor: grab;"
+                        *ngFor="let card of column.children">
+                        <nb-card class="card-border mt-2" [ngClass]="{
+                            'card-border-success': card.priority === 'LOW', 
+                            'card-border-info': card.priority === 'MEDIUM', 
+                            'card-border-warning': card.priority === 'HIGH',
+                            'card-border-urgent': card.priority === 'URGENT'} ">
+                            <form #todoForm="ngForm" style="margin-bottom: -5px;">
+                                <div class="mb-1 mt-1">
+                                    <div>
+                                        <span class="ml-2 card-sub-header-text color-dull">Created &nbsp;</span>
+                                        <span class="time-header">{{card?.createdOn | timeAgo}}</span>
+                                    </div>
+                                    <div>
+                                        <img [nbTooltip]="card.raisedBy" nbTooltipPlacement="bottom"
+                                            nbTooltipStatus="info" style="border-radius: 5px ;" width="30px"
+                                            [src]="employee?.photoUrl ? employee.photoUrl : '../../../../assets/images/default-img.png'"
+                                            alt="">
+                                        <span
+                                            style="color: blue; font-weight: bold;">&nbsp;&LeftArrowRightArrow;&nbsp;</span>
+                                        <img class="ml-1" [nbTooltip]="card.assignedFirstName"
+                                            nbTooltipPlacement="bottom" nbTooltipStatus="info"
+                                            style="border-radius: 5px ;" width="30px"
+                                            [src]="card?.photoUrl ? card.photoUrl : '../../../../assets/images/default-img.png'"
+                                            alt="">
+                                        <!-- TODO: Need to enable based on requirement -->
+                                        <!-- <button class="ml-1" nbButton size="small">{{card.id}}</button> -->
+                                        <button *ngIf="card.enableEdit && (card.data === 'new')" class="ml-1"
+                                            (click)="clearNote()" size="small" nbButton status="basic"
+                                            nbTooltip="Remove Note" nbTooltipPlacement="bottom"
+                                            nbTooltipStatus="danger">
+                                            <nb-icon status="danger" [icon]="'close-square-outline'">
+                                            </nb-icon>
+                                        </button>
+                                        <button *ngIf="card.enableEdit && !(card.data === 'new')" class="ml-1"
+                                            (click)="editNote(card)" size="small" nbButton status="basic"
+                                            nbTooltip="Edit Note" nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                            <nb-icon status="primary" [icon]="'checkmark-outline'">
+                                            </nb-icon>
+                                        </button>
+                                        <button *ngIf="!card.enableEdit && !(card.data === 'new')"
+                                            (click)="enableEdit(card)" class="ml-1" size="small" nbButton status="basic"
+                                            nbTooltip="Edit Note" nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                            <nb-icon status="primary" [icon]="'edit-outline'">
+                                            </nb-icon>
+                                        </button>
+                                        <button *ngIf="card.enableEdit && !(card.data === 'new')"
+                                            (click)="closeEdit(card)" class="ml-1" size="small" nbButton status="basic"
+                                            nbTooltip="Clear Edit" nbTooltipPlacement="bottom"
+                                            nbTooltipStatus="primary">
+                                            <nb-icon status="primary" [icon]="'close-square-outline'">
+                                            </nb-icon>
+                                        </button>
+                                        <button *ngIf="!(card.data === 'new')" (click)="deleteNote(card)"
+                                            class="ml-1 mr-1" size="small" nbButton status="basic"
+                                            nbTooltip="Delete Note" nbTooltipPlacement="bottom"
+                                            nbTooltipStatus="danger">
+                                            <nb-icon status="danger" icon="archive-outline"></nb-icon>
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <textarea [ngStyle]="{'color': card.enableEdit? '#3636e6' : '#000000'}"
+                                        [disabled]="!(card.enableEdit)"
+                                        style="font-size: 14px; font-weight: 300; line-height: 20px; margin-bottom: -7px;"
+                                        nbInput fullWidth placeholder="Add Note" [(ngModel)]="card.description">
+                                    </textarea>
+                                </div>
+                                <div class="mb-1 ml-1 mt-1">
+                                    <!-- FOR NEW CARD -->
+                                    <div *ngIf="card.enableEdit && card.data === 'new'">
+                                        <div style="display: inline;">
+                                            <input style="max-width: 7rem !important;" fieldSize="tiny" status="success"
+                                                nbInput type="text" [ngModel]="value"
+                                                (ngModelChange)="onModelChange($event)" placeholder="Assign To"
+                                                [nbAutocomplete]="autoNgModel" />
+                                            <nb-autocomplete #autoNgModel>
+                                                <nb-option *ngFor="let option of filteredNgModelOptions$ | async"
+                                                    [value]="option.firstName">
+                                                    {{ option.firstName }} {{ option.lastName }}
+                                                </nb-option>
+                                            </nb-autocomplete>
+                                        </div>
+                                        <div class="ml-1" style="display: inline;">
+                                            <nb-select style="max-width: 6rem !important;" size="tiny" status="warning"
+                                                name="priority" [(ngModel)]="card.priority" placeholder="Priority"
+                                                fullWidth>
+                                                <nb-option value="LOW">Low</nb-option>
+                                                <nb-option value="MEDIUM">Medium</nb-option>
+                                                <nb-option value="HIGH">High</nb-option>
+                                                <nb-option value="URGENT">Urgent</nb-option>
+                                            </nb-select>
+                                        </div>
+                                    </div>
+                                    <!-- TO EDIT CARD -->
+                                    <div *ngIf="card.enableEdit && card.data !== 'new'">
+                                        <div style="display: inline;">
+                                            <input style="max-width: 7rem !important;" fieldSize="tiny" status="success"
+                                                nbInput type="text" (ngModelChange)="onModelChange($event)"
+                                                placeholder="Assign To" [nbAutocomplete]="autoNgModelEdit" />
+                                            <nb-autocomplete (selectedChange)="onModelChange($event)" #autoNgModelEdit>
+                                                <nb-option *ngFor="let option of filteredNgModelOptions$ | async"
+                                                    [value]="option.firstName">
+                                                    {{ option.firstName }} {{ option.lastName }}
+                                                </nb-option>
+                                            </nb-autocomplete>
+                                        </div>
+                                        <div class="ml-1" style="display: inline;">
+                                            <nb-select style="max-width: 6rem !important;" size="tiny" status="warning"
+                                                name="priority" [(ngModel)]="card.priority" placeholder="Priority"
+                                                fullWidth>
+                                                <nb-option value="LOW">Low</nb-option>
+                                                <nb-option value="MEDIUM">Medium</nb-option>
+                                                <nb-option value="HIGH">High</nb-option>
+                                                <nb-option value="URGENT">Urgent</nb-option>
+                                            </nb-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </nb-card>
+                    </smooth-dnd-draggable>
+                </smooth-dnd-container>
+            </div>
+        </nb-card>
+    </smooth-dnd-draggable>
+</smooth-dnd-container>

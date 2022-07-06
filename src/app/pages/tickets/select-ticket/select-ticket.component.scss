@@ -1,0 +1,202 @@
+.top-space {
+    margin-top: 42px;
+}
+
+.header {
+    padding: 8px;
+}
+
+.filter-header {
+    color: #8f9bb3;
+    font-family: Open Sans, sans-serif;
+    font-size: 16px;
+    text-align: right;
+}
+
+.color-dull {
+    color: #8f9bb3;
+}
+
+hr {
+    margin-top: 0;
+}
+
+.card-border-success {
+    border-top-color: #00D68F;
+}
+
+.card-border-info {
+    border-top-color: #0095ff;
+}
+
+.card-border-warning {
+    border-top-color: #FFAA00;
+}
+
+.card-border-urgent {
+    border-top-color: #FF3D71;
+}
+
+.card-border {
+    border-top-style: solid;
+    border-top-width: 0.20rem;
+    margin-bottom: 5px !important;
+}
+
+.card-description {
+    font-size: 16px;
+    line-height: 1.6rem;
+    word-break: break-word;
+    letter-spacing: 0.03rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.card-description-comment {
+    font-size: 16px;
+    line-height: 1.6rem;
+    word-break: break-word;
+    letter-spacing: 0.03rem;
+}
+
+.card-header-text {
+    font-size: 20px;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.card-sub-header-text {
+    font-weight: 500;
+    font-size: 14.4px;
+    word-break: break-word;
+}
+
+.time-header {
+    font-weight: 200;
+    font-size: 12.8px;
+}
+
+nb-card {
+    margin-bottom: 0.5rem;
+}
+
+.config-title {
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+}
+
+nb-checkbox {
+    display: block;
+}
+
+.open-window {
+    margin-top: 1rem;
+}
+
+.scroll-bar {
+    min-width: 50rem;
+    display: block;
+    width: 200px;
+    height: 450px;
+    overflow-y: scroll;
+}
+
+.scroll-bar-mobile {
+    min-width: 20rem;
+    display: block;
+    width: 200px;
+    height: 450px;
+    overflow-y: scroll;
+}
+
+::ng-deep .ql-snow .ql-editor pre.ql-syntax {
+    background-color: #f6f6f6;
+    color: #000000;
+    overflow: visible;
+    padding: 1rem;
+}
+
+// Below CSS is for content styling, overriding quill editor paragraph
+::ng-deep .nb-theme-default p,
+.nb-theme-default .paragraph {
+    font-family: Open Sans, sans-serif;
+    font-size: 17.6px;
+    font-weight: 500;
+    line-height: 1.7rem;
+}
+
+::ng-deep .nb-theme-dark p,
+.nb-theme-dark .paragraph {
+    font-family: Open Sans, sans-serif;
+    font-size: 17.6px;
+    font-weight: 500;
+    line-height: 1.7rem;
+}
+
+::ng-deep .nb-theme-cosmic p,
+.nb-theme-cosmic .paragraph {
+    font-family: Open Sans, sans-serif;
+    font-size: 17.6px;
+    font-weight: 500;
+    line-height: 1.7rem;
+}
+
+::ng-deep .nb-theme-corporate p,
+.nb-theme-corporate .paragraph {
+    font-family: Open Sans, sans-serif;
+    font-size: 17.6px;
+    font-weight: 500;
+    line-height: 1.7rem;
+}
+
+.zero-padding {
+    padding: 0;
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+    .scroll-bar-mobile {
+        min-width: 40rem;
+        display: block;
+        width: 200px;
+        height: 450px;
+        overflow-y: scroll;
+    }
+}
+
+@media all and (device-width: 820px) and (device-height: 1180px) and (orientation:portrait) {
+    .scroll-bar-mobile {
+        min-width: 40rem;
+        display: block;
+        width: 200px;
+        height: 450px;
+        overflow-y: scroll;
+    }
+}
+
+@media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
+    .flex-direction {
+        flex-direction: row !important;
+    }
+
+    .scroll-bar-mobile {
+        min-width: 40rem;
+        display: block;
+        width: 200px;
+        height: 450px;
+        overflow-y: scroll;
+    }
+}
+
+@media all and (device-width: 1180px) and (device-height: 820px) and (orientation:landscape) {
+    .flex-direction {
+        flex-direction: row !important;
+    }
+
+    .scroll-bar-mobile {
+        min-width: 40rem;
+        display: block;
+        width: 200px;
+        height: 450px;
+        overflow-y: scroll;
+    }
+}

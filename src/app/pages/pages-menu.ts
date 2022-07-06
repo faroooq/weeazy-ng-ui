@@ -1,0 +1,136 @@
+import { NbMenuItem } from '@nebular/theme';
+
+export const MENU_ITEMS_SU_ADMIN: NbMenuItem[] = [
+  {
+    title: 'Dashboard',
+    icon: 'grid',
+    link: '/ps/dashboard',
+    home: true,
+  },
+  {
+    title: 'Tickets',
+    icon: 'flash',
+    link: '/ps/tickets',
+  },
+  {
+    title: 'Todos',
+    icon: 'checkmark-square-outline',
+    link: '/ps/todos',
+  },
+  {
+    title: 'Settings',
+    icon: 'settings-2-outline',
+    expanded: false,
+    children: [
+      {
+        title: 'Notification',
+        link: '/ps/notification',
+      },
+      {
+        title: 'Change Theme',
+        link: '/ps/profile',
+      }
+    ],
+  },
+  {
+    title: 'ADMIN',
+    group: true,
+  },
+  {
+    title: 'States',
+    link: '/ps/states',
+    icon: 'cube',
+  },
+  {
+    title: 'Units',
+    link: '/ps/teams',
+    icon: 'pantone',
+  },
+  {
+    title: 'Members',
+    link: '/ps/users',
+    icon: 'people',
+  }
+];
+
+export const MENU_ITEMS_ADMIN: NbMenuItem[] = [
+  {
+    title: 'Dashboard',
+    icon: 'grid',
+    link: '/ps/dashboard',
+    home: true,
+  },
+  {
+    title: 'Tickets',
+    icon: 'flash',
+    link: '/ps/tickets',
+  },
+  {
+    title: 'Todos',
+    icon: 'checkmark-square-outline',
+    link: '/ps/todos',
+  },
+  {
+    title: 'Settings',
+    icon: 'settings-2-outline',
+    expanded: false,
+    children: [
+      {
+        title: 'Notification',
+        link: '/ps/notification',
+      },
+      {
+        title: 'Change Theme',
+        link: '/ps/profile',
+      }
+    ],
+  },
+  {
+    title: 'ADMIN',
+    group: true,
+  },
+  {
+    title: 'Units',
+    link: '/ps/teams',
+    icon: 'pantone',
+  },
+  {
+    title: 'Members',
+    link: '/ps/users',
+    icon: 'people',
+  }
+];
+
+export const MENU_ITEMS_MEMBER: NbMenuItem[] = [
+  {
+    title: 'Dashboard',
+    icon: 'grid',
+    link: '/ps/dashboard',
+    home: true,
+  },
+  {
+    title: 'Tickets',
+    icon: 'flash',
+    link: '/ps/tickets',
+  },
+  {
+    title: 'Todos',
+    icon: 'checkmark-square-outline',
+    link: '/ps/todos',
+  },
+  {
+    title: 'Settings',
+    icon: 'settings-2-outline',
+    expanded: false,
+    children: [
+      {
+        title: 'Notification',
+        link: '/ps/notification',
+      },
+      {
+        title: 'Change Theme',
+        link: '/ps/profile',
+      }
+    ],
+  }
+];

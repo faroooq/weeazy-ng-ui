@@ -1,0 +1,53 @@
+<nb-alert status="danger" *ngIf="!projectId">You are not assigned to any organization. Please contact your admin.
+</nb-alert>
+
+<div class="row flex-direction" [ngStyle]="{'flex-direction': mobileView? 'column-reverse' : 'row'}">
+    <div class="col-lg-9 col-md-12 ipad-landscape-content">
+        <div class="row">
+            <div [ngClass]="{'card-padding-right': !mobileView}" class="col-lg-6">
+                <nb-card>
+                    <nb-card-header>Tickets by type</nb-card-header>
+                    <nb-card-body>
+                        <ngx-echarts-pie *ngIf="type" [pieChart]="type" [type]="'type'"></ngx-echarts-pie>
+                    </nb-card-body>
+                </nb-card>
+            </div>
+            <div [ngClass]="{'card-padding': !mobileView}" class="col-lg-6">
+                <nb-card>
+                    <nb-card-header>Tickets by priority</nb-card-header>
+                    <nb-card-body>
+                        <ngx-echarts-bar *ngIf="priority" [barChart]="priority"></ngx-echarts-bar>
+                    </nb-card-body>
+                </nb-card>
+            </div>
+            <div [ngClass]="{'card-padding-right': !mobileView}" class="col-lg-6">
+                <nb-card>
+                    <nb-card-header>Tickets by status</nb-card-header>
+                    <nb-card-body>
+                        <ngx-echarts-bar *ngIf="status" [barChart]="status"></ngx-echarts-bar>
+                    </nb-card-body>
+                </nb-card>
+            </div>
+            <div [ngClass]="{'card-padding': !mobileView}" class="col-lg-6">
+                <nb-card>
+                    <nb-card-header>Tickets by team</nb-card-header>
+                    <nb-card-body>
+                        <ngx-echarts-pie *ngIf="team" [pieChart]="team" [type]="'team'"></ngx-echarts-pie>
+                    </nb-card-body>
+                </nb-card>
+            </div>
+        </div>
+    </div>
+    <!-- TODO: Need to add statistics -->
+    <div class="col-lg-3 col-md-12 mb-3 ipad-landscape-accordion" [ngClass]="{'card-padding-left': !mobileView}">
+        <nb-accordion>
+            <nb-accordion-item collapsed="false">
+                <nb-accordion-item-header>Tickets Status</nb-accordion-item-header>
+                <!-- <nb-accordion-item-body>
+                    <nb-menu [items]="ticketStatus">
+                    </nb-menu>
+                </nb-accordion-item-body> -->
+            </nb-accordion-item>
+        </nb-accordion>
+    </div>
+</div>

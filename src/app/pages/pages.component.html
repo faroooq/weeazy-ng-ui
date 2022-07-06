@@ -1,0 +1,67 @@
+<ngx-one-column-layout>
+    <nb-menu (click)="menuClicked()" [autoCollapse]="true" *hasRole="['suadmin']" [items]="menuSuAdmin">
+    </nb-menu>
+    <nb-menu (click)="menuClicked()" [autoCollapse]="true" *hasRole="['admin']" [items]="menuAdmin">
+    </nb-menu>
+    <nb-menu (click)="menuClicked()" [autoCollapse]="true" *hasRole="['member']" [items]="menuMember"></nb-menu>
+    <router-outlet></router-outlet>
+</ngx-one-column-layout>
+
+<!-- TODO: FAB floating icon implementation -->
+<!-- <div class="fab-wrapper">
+    <input id="fabCheckbox" type="checkbox" class="fab-checkbox" />
+    <label class="fab" for="fabCheckbox">
+        <span class="fab-dots fab-dots-1"></span>
+        <span class="fab-dots fab-dots-2"></span>
+        <span class="fab-dots fab-dots-3"></span>
+    </label>
+    <div class="fab-wheel">
+        <a class="fab-action fab-action-1">
+            <i class="fas fa-question"></i>
+        </a>
+        <a class="fab-action fab-action-2">
+            <i class="fas fa-book"></i>
+        </a>
+        <a (click)="openContactsWindow()" class="fab-action fab-action-3">
+            <i class="fas fa-address-book"></i>
+        </a>
+        <a class="fab-action fab-action-4">
+            <i class="fas fa-info"></i>
+        </a>
+    </div>
+</div> -->
+<!-- TODO: Contacts implementation -->
+<div>
+    <a (click)="openContactsWindow()" class="float">
+        <i class="fa fa-users my-float"></i>
+    </a>
+</div>
+
+<ng-template #disabledEsc>
+    <div [ngClass]="{
+      'scroll-bar-mobile': mobileView, 
+      'scroll-bar': !mobileView}">
+        <nb-accordion>
+            <nb-accordion-item>
+                <nb-accordion-item-header>
+                    <img width="30px" src="../../assets/images/img_avatar.png" alt="">&nbsp;&nbsp;
+                    Farooq Shaik
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    Show User Contact Info
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+            <nb-accordion-item>
+                <nb-accordion-item-header>
+                    <img width="30px" src="../../assets/images/img_avatar.png" alt="">&nbsp;&nbsp;
+                    John
+                </nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    A nebula is an interstellar cloud of dust, hydrogen, helium and other ionized gases.
+                    Originally, nebula was a name for any diffuse astronomical object,
+                    including galaxies beyond the Milky Way.
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+        </nb-accordion>
+    </div>
+</ng-template>

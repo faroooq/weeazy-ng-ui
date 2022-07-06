@@ -1,0 +1,17 @@
+@import './../../../../assets/@theme/styles/themes';
+
+@include nb-install-component() {}
+
+.card-header-text {
+    font-size: 1rem;
+    font-weight: bold;
+    top: 3px;
+    margin-top: 5px;
+}
+
+::ng-deep .ql-snow .ql-editor pre.ql-syntax {
+    background-color: #f6f6f6;
+    color: #000000;
+    overflow: visible;
+    padding: 1rem;
+}

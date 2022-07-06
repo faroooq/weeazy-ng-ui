@@ -1,0 +1,11 @@
+<mat-toolbar *ngIf="data.mobileType === 'android'" color="primary" class="android-prompt">
+    <button mat-button (click)="installPwa()">
+        Install weeazy app on your mobile
+    </button>
+</mat-toolbar>
+
+<div *ngIf="data.mobileType === 'ios'" class="ios-prompt">
+    <p>To install App open Safari browser and tap the <span style="font-weight: bold;">Menu / Share</span>
+        button and then click <span style="font-weight: bold;">'Add to Home screen'</span>
+    </p>
+</div>

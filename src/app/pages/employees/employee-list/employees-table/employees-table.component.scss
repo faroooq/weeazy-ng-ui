@@ -1,0 +1,11 @@
+.header-align {
+  align-self: center;
+}
+
+.red-option {
+  color: red;
+}
+
+::ng-deep input[type="checkbox"].form-control {
+  height: calc(0.5em + 0.25rem + 2px);
+}

@@ -1,0 +1,43 @@
+<div>
+    <nb-alert status="danger" *ngIf="!projectId">You are not assigned to any organization. Please contact your admin.
+    </nb-alert>
+</div>
+<nb-card>
+    <nb-card-body>
+        <button size="small" type="button" nbButton status="primary" routerLink="new">New State</button>
+
+        <table [nbTreeGrid]="data" equalColumnsWidth>
+
+            <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
+            <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
+
+            <ng-container nbTreeGridColumnDef="name">
+                <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>name</th>
+                <td nbTreeGridCell *nbTreeGridCellDef="let row">
+
+                    <nb-tree-grid-row-toggle [expanded]="row.expanded" *ngIf="row.data.kind === 'dir'">
+                    </nb-tree-grid-row-toggle>
+
+                    {{row.data.name}}
+
+                </td>
+            </ng-container>
+
+            <ng-container nbTreeGridColumnDef="size" [hideOn]="600">
+                <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>size</th>
+                <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data.size}}</td>
+            </ng-container>
+
+            <ng-container nbTreeGridColumnDef="kind" [hideOn]="1000">
+                <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>kind</th>
+                <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data.kind}}</td>
+            </ng-container>
+
+            <ng-container nbTreeGridColumnDef="items" [showOn]="1200">
+                <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>items</th>
+                <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data.items || '-'}}</td>
+            </ng-container>
+        </table>
+
+    </nb-card-body>
+</nb-card>

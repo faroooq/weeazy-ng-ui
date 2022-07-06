@@ -1,0 +1,258 @@
+<!-- Ticket description -->
+<div class="row flex-direction" *ngIf="ticket" [ngStyle]="{'flex-direction': mobileView? 'column-reverse' : 'row'}">
+  <nb-alert *ngIf="errorMsg" status="danger">{{errorMsg}}</nb-alert>
+  <div class="col-lg-9 col-md-12" [ngClass]="{'pr-1': !mobileView}">
+    <nb-card class="card-border" [ngClass]="{
+      'card-border-success': ticket?.priority === 'LOW', 
+      'card-border-info': ticket?.priority === 'MEDIUM', 
+      'card-border-warning': ticket?.priority === 'HIGH',
+      'card-border-urgent': ticket?.priority === 'URGENT'} ">
+      <nb-card-header [hidden]="toggleContent">
+        <div class="card-header-text">
+          <button size="small" outline nbTooltip="Edit Ticket" nbTooltipPlacement="bottom" nbTooltipStatus="primary"
+            (click)="toggleContent = !toggleContent" nbButton status="primary">
+            <nb-icon icon="edit"></nb-icon>
+          </button>&nbsp;
+          <label style="display: initial;" for="title">{{ ticket?.title }}</label>
+        </div>
+        <div class="row" style="margin-top: 5px;">
+          <div class="col-2 col-lg-1" style="align-self: center;">
+            <img width="40px" [src]="ticket?.photoUrl ? ticket.photoUrl : '../../../../assets/images/default-img.png'">
+          </div>
+          <div class="col-10">
+            <div class="row">
+              <div class="col-lg-5 col-md-5">
+                <div>
+                  <span class="card-sub-header-text color-dull">Created by: &nbsp;&nbsp;</span>
+                  <span>{{ ticket?.raisedBy.firstName }} {{ ticket?.raisedBy.lastName }}</span>
+                </div>
+                <div class="card-sub-header-text">
+                  <span class="color-dull">Assigned to:&nbsp;&nbsp;</span>
+                  <span class="label-font" for="status" *ngFor="let assigned of ticket?.assignedTo">{{
+                    assigned.firstName}}
+                    {{assigned.lastName}}, &nbsp;</span>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div>
+                  <span style="font-weight: 200;" class="color-dull">Created:&nbsp;&nbsp;&nbsp;</span>
+                  <span class="time-header">
+                    {{ticket?.createdOn | date: 'dd/MM/yy HH:mm:ss'}}
+                  </span>
+                </div>
+                <div>
+                  <span style="font-weight: 200;" class="color-dull">Updated:&nbsp;&nbsp;</span>
+                  <span class="time-header">
+                    {{ticket?.updatedOn | date: 'dd/MM/yy HH:mm:ss'}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <nb-tag-list class="mt-2" *ngFor="let tag of ticket.tags">
+          <nb-tag size="tiny" class="mr-2" status="basic" text="{{tag}}"></nb-tag>
+        </nb-tag-list>
+      </nb-card-header>
+      <nb-card-body [hidden]="toggleContent">
+        <div class="ql-snow">
+          <div [ngClass]="{'zero-padding': mobileView}" class="ql-editor"
+            [innerHtml]="ticket?.description != undefined? ticket?.description: '' | sanitizeHtml">
+          </div>
+        </div>
+      </nb-card-body>
+      <div [hidden]="!toggleContent">
+        <div class="col-md-12 mt-3">
+          <form [formGroup]="ticketForm">
+            <div class="form-group">
+              <label for="title" class="label">Title</label>
+              <input placeholder="Title" name="title" type="text" nbInput fullWidth formControlName="title">
+            </div>
+            <!-- ########QUILL-EDITOR######## -->
+            <!-- https://killercodemonkey.github.io/ngx-quill-example/ -->
+            <div class="form-group">
+              <label for="description" class="label">Description</label>
+              <quill-editor name="description" formControlName="description" trackChanges="all" [modules]="modules"
+                [styles]="{height: '250px'}">
+              </quill-editor>
+            </div>
+            <!-- ########QUILL-EDITOR######## -->
+            <div class="row" style="margin-bottom: 20px; margin-left: 0px;">
+              <div>
+                <button size="small" type="button" nbButton status="basic" (click)="cancel()">Cancel</button>
+              </div>
+              <div class="ml-2">
+                <button size="small" type="button" nbButton status="primary" (click)="onEditTicket()">Update</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nb-card>
+    <!-- Comments -->
+    <nb-accordion>
+      <nb-accordion-item collapsed="false" #item>
+        <nb-accordion-item-header>
+          Comments
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <nb-card *ngFor="let comment of ticket?.comments">
+            <nb-card-header>
+              <div class="row">
+                <div class="col-2 col-lg-1">
+                  <img width="40px"
+                    [src]="ticket?.photoUrl ? ticket.photoUrl : '../../../../assets/images/default-img.png'">
+                </div>
+                <div class="col-10">
+                  <div class="card-sub-header-text">
+                    <strong>{{ comment?.author.firstName }} {{ comment?.author.lastName }}</strong>
+                  </div>
+                  <div>
+                    <span class="time-header">
+                      {{ comment?.createdOn | timeAgo }} &nbsp; ( {{comment?.createdOn | date: 'dd/MM/yy HH:mm:ss'}}
+                      )
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </nb-card-header>
+            <nb-card-body>
+              <div class="card-description-comment" [innerHTML]="comment?.content | sanitizeHtml"></div>
+            </nb-card-body>
+          </nb-card>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+    <nb-card>
+      <nb-card-body>
+        <form (ngSubmit)="onNewComment()">
+          <!-- ########QUILL-EDITOR######## -->
+          <!-- https://killercodemonkey.github.io/ngx-quill-example/ -->
+          <div class="form-group">
+            <quill-editor name="description" [formControl]="comment" trackChanges="all" [modules]="modules"
+              [styles]="{height: '150px'}">
+            </quill-editor>
+          </div>
+          <div class="form-group">
+            <button size="small" type="button" nbButton status="warning" type="submit">Comment</button>
+          </div>
+          <!-- ########QUILL-EDITOR######## -->
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <!-- Update Ticket -->
+  <div class="col-lg-3 col-md-12 mb-3" [ngClass]="{'pl-1': !mobileView}">
+    <nb-card>
+      <nb-card-body>
+        <button size="small" outline nbTooltip="Tickets List" nbTooltipPlacement="bottom" nbTooltipStatus="basic"
+          (click)="gotoTickets()" nbButton status="basic">
+          <nb-icon icon="undo"></nb-icon>
+        </button>
+        <button class="ml-2" size="small" (click)="openWindowWithoutBackdrop()" outline nbTooltip="Show History"
+          nbTooltipPlacement="bottom" nbTooltipStatus="success" nbButton status="success">
+          <nb-icon icon="clock-outline"></nb-icon>
+        </button>
+        <button class="ml-2" size="small" (click)="onDeleteConfirm()" outline nbTooltip="Delete Ticket"
+          nbTooltipPlacement="bottom" nbTooltipStatus="danger" nbButton status="danger">
+          <nb-icon icon="archive-outline"></nb-icon>
+        </button>
+      </nb-card-body>
+    </nb-card>
+    <nb-accordion>
+      <nb-accordion-item [collapsed]="mobileView? true: false">
+        <nb-accordion-item-header>
+          Update Ticket
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <form [formGroup]="ticketForm">
+            <div class="form-group">
+              <label for="status" class="label">Status</label>
+              <nb-select size="small" formControlName="status" placeholder="Select Status" fullWidth>
+                <nb-option value="OPEN">Open</nb-option>
+                <nb-option value="PENDING">Pending</nb-option>
+                <nb-option value="RESOLVED">Resolved</nb-option>
+                <nb-option value="CLOSED">Closed</nb-option>
+              </nb-select>
+            </div>
+            <div class="form-group">
+              <label for="priority" class="label">Priority</label>
+              <nb-select size="small" formControlName="priority" placeholder="Select Priority" fullWidth>
+                <nb-option value="LOW">Low</nb-option>
+                <nb-option value="MEDIUM">Medium</nb-option>
+                <nb-option value="HIGH">High</nb-option>
+                <nb-option value="URGENT">Urgent</nb-option>
+              </nb-select>
+            </div>
+            <div class="form-group">
+              <label for="type" class="label">Ticket Type</label>
+              <nb-select size="small" formControlName="type" placeholder="Select Type" fullWidth>
+                <nb-option value="QUESTION">Question</nb-option>
+                <nb-option value="INCIDENT">Incident</nb-option>
+                <nb-option value="PROBLEM">Problem</nb-option>
+                <nb-option value="TASK">Task</nb-option>
+              </nb-select>
+            </div>
+            <div class="form-group">
+              <label for="team" class="label">Team</label>
+              <nb-select size="small" name="team" (selectedChange)="onLoadEmployees($event)" formControlName="team"
+                placeholder="Select Team" fullWidth>
+                <nb-option *ngFor="let team of filteredTeams | async" [value]="team._id">{{ team.name }}</nb-option>
+              </nb-select>
+            </div>
+            <div class="form-group">
+              <label for="member" class="label">Assign To</label>
+              <nb-select size="small" name="assignedTo" formControlName="assignedTo" placeholder="Select Member"
+                fullWidth>
+                <nb-option *ngFor="let employee of filteredEmployees | async" [value]="employee._id">{{
+                  employee.firstName }} {{ employee.lastName }}
+                </nb-option>
+              </nb-select>
+            </div>
+            <div class="header">
+              <div class="row">
+                <div class="ml-2">
+                  <button (click)="onEditTicket()" size="small" type="submit" nbButton status="primary">Update</button>
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+  </div>
+</div>
+<!-- Ticket History -->
+<ng-template #disabledEsc>
+  <div [ngClass]="{
+    'scroll-bar-mobile': mobileView, 
+    'scroll-bar': !mobileView}">
+    <nb-card *ngFor="let history of ticket.history">
+      <nb-card-header>
+        <div class="row">
+          <div class="col-3 col-md-1">
+            <img width="40px" [src]="ticket?.photoUrl ? ticket.photoUrl : '../../../../assets/images/default-img.png'">
+          </div>
+          <div class="col-8 col-md-6">
+            <div class="card-sub-header-text">
+              <strong>{{ history?.changedBy.firstName }} {{ history?.changedBy.lastName }}</strong>
+            </div>
+            <div>
+              <span class="time-header">
+                {{ history?.dateTime | timeAgo }} &nbsp;
+              </span>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <span class="card-sub-header-text color-dull">Changed: &nbsp;&nbsp;</span>
+            <nb-tag size="tiny" status="basic" appearance="outline" text="{{history.attribute}}"></nb-tag>
+          </div>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="card-description-comment" [innerHTML]="history?.newValue | sanitizeHtml"></div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</ng-template>

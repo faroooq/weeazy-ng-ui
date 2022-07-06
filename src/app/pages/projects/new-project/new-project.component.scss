@@ -1,0 +1,61 @@
+.mat-form-field {
+  width: 100%;
+}
+
+.team {
+  width: 50%;
+}
+
+.add-employees {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1em;
+  max-height: 300px;
+}
+
+mat-icon {
+  cursor: pointer;
+}
+
+.create-project {
+  margin-top: 10px;
+}
+
+.light-grey-button {
+  background: #eeeeee;
+  color: #000;
+}
+
+.light-grey-button:hover {
+  background: #22ADD7;
+  color: #fff;
+}
+
+.wrapword {
+  white-space: -moz-pre-wrap !important;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  white-space: pre-wrap;
+  /* css-3 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+  white-space: -webkit-pre-wrap;
+  /* Newer versions of Chrome/Safari*/
+  word-break: break-all;
+  white-space: normal;
+}
+
+.form-padding {
+  padding-top: 10px;
+}
+
+.org-color {
+  color: #3366FF !important;
+}
+
+.header-padding {
+  padding: 0px;
+}

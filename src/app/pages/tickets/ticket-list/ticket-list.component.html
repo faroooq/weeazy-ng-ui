@@ -1,0 +1,178 @@
+<nb-alert status="danger" *ngIf="!projectId">You are not assigned to any organization. Please contact your admin.
+</nb-alert>
+<div class="row">
+    <div class="col-lg-6 col-md-5">
+        <nb-button-group (valueChange)="statusChange($event)" size="small" status="info" multiple="true" filled="true">
+            <button [ngClass]="{'button-padding': mobileView,
+                            'button-active' : status === 'OPEN'}" value="OPEN" nbButtonToggle>
+                <nb-icon icon="activity-outline"></nb-icon>
+                <span *ngIf="!mobileView">Open:&nbsp;</span>
+                <span> {{ticketStatus?.openTicketCount}}</span>
+            </button>
+            <button [ngClass]="{'button-padding': mobileView,
+                            'button-active' : status === 'PENDING'}" value="PENDING" nbButtonToggle>
+                <nb-icon icon="clock-outline"></nb-icon>
+                <span *ngIf="!mobileView">Pending:&nbsp;</span>
+                <span> {{ticketStatus?.pendingTicketCount}}</span>
+            </button>
+            <button [ngClass]="{'button-padding': mobileView,
+                            'button-active' : status === 'RESOLVED'}" value="RESOLVED" nbButtonToggle>
+                <nb-icon icon="done-all-outline"></nb-icon>
+                <span *ngIf="!mobileView">Resolved:&nbsp;</span>
+                <span> {{ticketStatus?.resolvedTicketCount}}</span>
+            </button>
+            <button [ngClass]="{'button-padding': mobileView,
+                            'button-active' : status === 'CLOSED'}" value="CLOSED" nbButtonToggle>
+                <nb-icon icon="hard-drive-outline"></nb-icon>
+                <span *ngIf="!mobileView">Closed:&nbsp;</span>
+                <span> {{ticketStatus?.closedTicketCount}}</span>
+            </button>
+        </nb-button-group>
+    </div>
+</div>
+<div class="row flex-direction mt-3" [ngStyle]="{'flex-direction': mobileView? 'column-reverse' : 'row'}">
+    <div class="col-lg-9 col-md-12" [ngClass]="{'card-padding-right': !mobileView}">
+        <nb-card *ngIf="isLoading" [nbSpinner]="true" nbSpinnerSize="large" nbSpinnerStatus="warning">
+            <nb-card-body>
+            </nb-card-body>
+        </nb-card>
+        <nb-alert *ngIf="tickets === undefined" accent="info">No Tickets Found</nb-alert>
+        <nb-card [ngClass]="{
+                            'card-border-success': ticket.priority === 'LOW', 
+                            'card-border-info': ticket.priority === 'MEDIUM', 
+                            'card-border-warning': ticket.priority === 'HIGH',
+                            'card-border-urgent': ticket.priority === 'URGENT'} " *ngFor="let ticket of tickets"
+            class="card-border">
+            <nb-card-body>
+                <div class="row">
+                    <div *ngIf="!mobileView" class="col-lg-1 col-md-1 ticket-image">
+                        <img width="50px"
+                            [src]="ticket?.photoUrl ? ticket.photoUrl : '../../../../assets/images/default-img.png'">
+                    </div>
+                    <div class="col-lg-7 col-md-7 mb-2">
+                        <a class="card-header-text" (click)="onSelectTicket(ticket.number)">{{ ticket?.title |
+                            truncateText:[150, '...'] }}
+                        </a>
+                        <div *ngIf="!mobileView" class="label-font">
+                            <span class="card-sub-header-text">{{ticket.raisedBy.firstName}}
+                                {{ticket.raisedBy.lastName}}</span>
+                            <span>,&nbsp;&nbsp;</span>
+                            <span>
+                                <span class="color-dull">Created:</span>
+                                {{ ticket?.createdOn | timeAgo }}
+                            </span>
+                            <span>,&nbsp;&nbsp;</span>
+                            <span>
+                                <span class="color-dull">Updated:</span>
+                                {{ ticket?.updatedOn | timeAgo }}
+                            </span>
+                            <div *ngIf="!mobileView">
+                                <label class="caption-1 color-dull" for="priority">Assigned To</label>
+                                <label for="priority">&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                                <label class="label-font" for="status" *ngFor="let assigned of ticket?.assignedTo">{{
+                                    assigned.firstName}}
+                                    {{assigned.lastName}}, &nbsp;</label>
+                            </div>
+                        </div>
+                        <div *ngIf="mobileView" class="row label-font mt-2">
+                            <div class="col-3" style="align-self: center;">
+                                <img width="50px"
+                                    [src]="ticket?.photoUrl ? ticket.photoUrl : '../../../../assets/images/default-img.png'">
+                            </div>
+                            <div class="col-9">
+                                <div class="card-sub-header-text">{{ticket.raisedBy.firstName}}
+                                    {{ticket.raisedBy.lastName}}
+                                </div>
+                                <div>
+                                    <span class="color-dull">Created:</span>
+                                    {{ ticket?.createdOn | timeAgo }}
+                                </div>
+                                <div>
+                                    <span class="color-dull">Updated:</span>
+                                    {{ ticket?.updatedOn | timeAgo }}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4" [ngClass]="{'mt-2': mobileView}">
+                        <div>
+                            <label class="caption-1 color-dull" for="status">Status</label>
+                            <label for="status">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                            <label class="label-font" for="status">{{ ticket.status}}</label>
+                        </div>
+                        <div>
+                            <label class="caption-1 color-dull" for="type">Type</label>
+                            <label
+                                for="type">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                            <label class="label-font" for="status">{{ ticket.type}}</label>
+                        </div>
+                        <div>
+                            <label class="caption-1 color-dull" for="priority">Priority</label>
+                            <label for="priority">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                            <label class="label-font" for="status">{{ ticket.priority}}</label>
+                        </div>
+                        <div *ngIf="mobileView">
+                            <label class="caption-1 color-dull" for="priority">Assigned To</label>
+                            <label for="priority">&nbsp;&nbsp;:&nbsp;&nbsp;</label>
+                            <label class="label-font" for="status" *ngFor="let assigned of ticket?.assignedTo">{{
+                                assigned.firstName}}
+                                {{assigned.lastName}}, &nbsp;</label>
+                        </div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-lg-3 col-md-12 mb-3" [ngClass]="{'card-padding-left': !mobileView}">
+        <nb-accordion>
+            <nb-accordion-item [collapsed]="mobileView? true: false">
+                <nb-accordion-item-header>Filter Tickets</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Title" class="label label-margin">Priority</label>
+                                <nb-select [(ngModel)]="priority" fullWidth (selectedChange)="priorityChange()"
+                                    size="small" status="info" placeholder="Priority" multiple>
+                                    <nb-option value="URGENT">Urgent</nb-option>
+                                    <nb-option value="HIGH">High</nb-option>
+                                    <nb-option value="MEDIUM">Medium</nb-option>
+                                    <nb-option value="LOW">Low</nb-option>
+                                </nb-select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Title" class="label label-margin">Type</label>
+                                <nb-select [(ngModel)]="type" fullWidth (selectedChange)="typeChange()" size="small"
+                                    status="info" placeholder="Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" multiple>
+                                    <nb-option value="QUESTION">Question</nb-option>
+                                    <nb-option value="INCIDENT">Incident</nb-option>
+                                    <nb-option value="PROBLEM">Problem</nb-option>
+                                    <nb-option value="TASK">Task</nb-option>
+                                </nb-select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Title" class="label label-margin">Date range</label>
+                                <nb-form-field>
+                                    <input nbInput placeholder="Select date range" [nbDatepicker]="picker"
+                                        [(ngModel)]="ngModelDate">
+                                    <button nbSuffix nbButton (click)="dateChange()">
+                                        <nb-icon icon="arrow-circle-right"></nb-icon>
+                                    </button>
+                                    <nb-rangepicker #picker></nb-rangepicker>
+                                </nb-form-field>
+                            </div>
+                            <button size="small" type="button" nbButton status="basic"
+                                (click)="clearFilters()">Clear</button>
+                        </div>
+                    </div>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+        </nb-accordion>
+    </div>
+</div>
+<div *ngIf="projectId">
+    <a routerLink="new-ticket" class="float">
+        <i class="fa fa-plus my-float"></i>
+    </a>
+</div>

@@ -1,0 +1,79 @@
+<nb-card>
+  <nb-card-header class="card-header-text">New Ticket</nb-card-header>
+  <nb-card-body style="padding: 1rem 1rem;">
+    <form [formGroup]="ticketForm">
+      <div class="row">
+        <div class="col-md-9">
+          <nb-alert *ngIf="errorMsg" status="danger">{{errorMsg}}</nb-alert>
+          <div class="form-group">
+            <label for="Title" class="label">Title</label>
+            <input placeholder="Title" name="title" type="text" nbInput fullWidth formControlName="title">
+          </div>
+          <!-- ########QUILL-EDITOR######## -->
+          <!-- https://killercodemonkey.github.io/ngx-quill-example/ -->
+          <div class="form-group">
+            <label for="description" class="label">Description</label>
+            <quill-editor name="description" formControlName="description" trackChanges="all" [modules]="modules"
+              [styles]="{height: '250px'}">
+            </quill-editor>
+          </div>
+          <!-- ########QUILL-EDITOR######## -->
+          <div class="form-group">
+            <label for="tags" class="label">Tags</label>
+            <nb-tag-list (tagRemove)="onTagRemove($event)">
+              <nb-tag *ngFor="let tag of tags" [text]="tag" removable></nb-tag>
+              <input name="tags" formControlName="tags" placeholder="Add upto 5 Tags " type="text" nbTagInput
+                (tagAdd)="onTagAdd($event)" fullWidth>
+            </nb-tag-list>
+            <nb-alert *ngIf="tagsError" status="warning">{{tagsError}}</nb-alert>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="priority" class="label">Priority</label>
+            <nb-select size="small" name="priority" formControlName="priority" placeholder="Select Priority" fullWidth>
+              <nb-option value="LOW">Low</nb-option>
+              <nb-option value="MEDIUM">Medium</nb-option>
+              <nb-option value="HIGH">High</nb-option>
+              <nb-option value="URGENT">Urgent</nb-option>
+            </nb-select>
+          </div>
+          <div class="form-group">
+            <label for="type" class="label">Ticket Type</label>
+            <nb-select size="small" name="type" formControlName="type" placeholder="Select Type" fullWidth>
+              <nb-option value="QUESTION">Question</nb-option>
+              <nb-option value="INCIDENT">Incident</nb-option>
+              <nb-option value="PROBLEM">Problem</nb-option>
+              <nb-option value="TASK">Task</nb-option>
+            </nb-select>
+          </div>
+          <div class="form-group">
+            <label for="team" class="label">Team</label>
+            <nb-select size="small" name="team" (selectedChange)="onLoadEmployees($event)" formControlName="team"
+              placeholder="Select Team" fullWidth>
+              <nb-option *ngFor="let team of filteredTeams | async" [value]="team._id">{{ team.name }}</nb-option>
+            </nb-select>
+          </div>
+          <div class="form-group">
+            <label for="member" class="label">Assign To</label>
+            <nb-select size="small" name="assignedTo" formControlName="assignedTo" placeholder="Select Member" fullWidth
+              multiple>
+              <nb-option *ngFor="let employee of filteredEmployees | async" [value]="employee._id">{{
+                employee.firstName }} {{ employee.lastName }}
+                <!-- <span class="email">{{ employee.email }}</span> -->
+              </nb-option>
+            </nb-select>
+          </div>
+        </div>
+        <div class="row" style="margin-left: 3px;">
+          <div class="col-6 col-md-5">
+            <button size="small" type="button" nbButton status="basic" (click)="cancel()">Cancel</button>
+          </div>
+          <div class="col-6 col-md-5">
+            <button size="small" type="button" nbButton status="primary" (click)="onNewTicket()">Create</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

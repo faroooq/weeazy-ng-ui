@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+    <nb-card>
+      <nb-card-header>Weeazy Desk Login</nb-card-header>
+      <nb-card-body>
+        <nb-alert *ngIf="loginError" status="danger">{{ loginError }}</nb-alert>
+        <nb-alert status="success" *ngIf="signupMessage">{{ signupMessage }}</nb-alert>
+        <!-- TODO: NEED TO ENABLE BASED ON REQUIREMENT -->
+        <!-- <div class="row">
+          <h6 style="font-size: 14px;">
+            Sign in with
+          </h6>
+          <div class="col-1">
+            <button size="small" hero nbButton status="primary" (click)="loginWithFB()">
+              <nb-icon icon="facebook"></nb-icon>
+            </button>
+          </div>
+          <div class="col-1">
+            <asl-google-signin-button>
+            </asl-google-signin-button>
+          </div>
+        </div> -->
+        <form class="example-form mt-2" (submit)="onLogin(loginForm)" #loginForm="ngForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="inputEmail" class="label">Email</label>
+                <input name="email" type="email" nbInput fullWidth id="inputEmail" placeholder="Email" ngModel
+                  #email="ngModel" required>
+                <nb-alert status="danger" *ngIf="email.invalid && email.touched">Enter valid email</nb-alert>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="inputWebsite" class="label">Password</label>
+                <input name="password" type="password" nbInput fullWidth id="inputPassword" placeholder="Password"
+                  ngModel #password="ngModel" required>
+                <nb-alert status="danger" *ngIf="password.invalid && password.touched">Enter valid password</nb-alert>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <button type="submit" size="small" nbButton status="primary">Sign in</button>
+              </div>
+            </div>
+          </div>
+          <nb-card *ngIf="isLoading" [nbSpinner]="true" nbSpinnerSize="large" nbSpinnerStatus="primary">
+            <nb-card-body>
+            </nb-card-body>
+          </nb-card>
+        </form>
+        <div class="row">
+          <div class="col-sm-12 offset-md-2">
+            <a routerLink="/au/signup">Don't have an account? Sign up</a>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <!-- <div class="col-md-3">
+    <nb-card>
+      <nb-card-header>
+        Demo Account
+      </nb-card-header>
+      <nb-card-body>
+        <p>Admin Login</p>
+        <div>
+          <label for="email" class="label">Email:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="email">admin@weeazy.org</label>
+        </div>
+        <div>
+          <label for="email" class="label">Password:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="password">Demo@12345</label>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <p>Member Login</p>
+        <div>
+          <label for="email" class="label">Email:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="email">member@weeazy.org</label>
+        </div>
+        <div>
+          <label for="email" class="label">Password:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="password">Demo@12345</label>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div> -->
+</div>

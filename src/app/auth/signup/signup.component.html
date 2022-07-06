@@ -1,0 +1,128 @@
+<div class="row">
+  <div class="col-md-5 offset-md-4">
+    <nb-card>
+      <nb-card-header>Weeazy Desk Signup</nb-card-header>
+      <nb-card-body>
+        <nb-alert status="danger" *ngIf="signupError">{{ signupError }}</nb-alert>
+        <!-- TODO: NEED TO ENABLE BASED ON REQUIREMENT -->
+        <!-- <div class="row">
+          <h6 style="font-size: 14px;">
+            Sign up with
+          </h6>
+          <div class="col-2 col-lg-1">
+            <asl-google-signin-button>
+            </asl-google-signin-button>
+          </div>
+          <div class="col-1 col-lg-1">
+            <button size="small" hero nbButton status="primary" (click)="loginWithFB()">
+              <nb-icon icon="facebook"></nb-icon>
+            </button>
+          </div>
+        </div> -->
+        <form class="example-form mt-2" (submit)="onSignup(signupForm)" #signupForm="ngForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputFirstName" class="label">First Name</label>
+                <input name="firstName" type="text" nbInput fullWidth id="inputFirstName" placeholder="First Name"
+                  ngModel #firstName="ngModel" required>
+                <nb-alert status="danger" *ngIf="firstName.invalid && firstName.touched">Enter valid first name
+                </nb-alert>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputLastName" class="label">Last Name</label>
+                <input name="lastName" type="text" nbInput fullWidth id="inputLastName" placeholder="Last Name" ngModel
+                  #lastName="ngModel" required>
+                <nb-alert status="danger" *ngIf="lastName.invalid && lastName.touched">Enter valid last name</nb-alert>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputEmail" class="label">Email</label>
+                <input name="email" type="email" nbInput fullWidth id="inputEmail" placeholder="Email" ngModel
+                  #email="ngModel" required>
+                <nb-alert status="danger" *ngIf="email.invalid && email.touched">Enter valid email</nb-alert>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="inputWebsite" class="label">Password</label>
+                <input name="password" type="password" nbInput fullWidth id="inputPassword" placeholder="Password"
+                  ngModel #password="ngModel" required>
+                <nb-alert status="danger" *ngIf="password.invalid && password.touched">Enter valid password</nb-alert>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <nb-radio [checked]="!options" (click)="toggle()">Create your Organization
+                </nb-radio>
+                <input nbPopover="Share org code only with your team" nbPopoverTrigger="hover"
+                  nbPopoverPlacement="bottom" nbInput fullWidth placeholder="ex: JIH-123" type="text" name="code2"
+                  ngModel #code2="ngModel" required [disabled]="options" status="info">
+                <nb-alert status="danger" *ngIf="code2.invalid">Enter organization code</nb-alert>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <nb-radio [checked]="options" (click)="toggle()">Join as Member</nb-radio>
+                <input nbPopover="Get your org code from admin" nbPopoverTrigger="hover" nbPopoverPlacement="bottom"
+                  nbInput fullWidth placeholder="ex: JIH-123" type="text" name="code1" ngModel #code1="ngModel" required
+                  [disabled]="!options" status="info" />
+                <nb-alert status="danger" *ngIf="code1.invalid">Enter organization code</nb-alert>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <button size="small" type="submit" nbButton status="primary">Sign up</button>
+              </div>
+            </div>
+          </div>
+          <nb-card *ngIf="isLoading" [nbSpinner]="true" nbSpinnerSize="large" nbSpinnerStatus="primary">
+            <nb-card-body>
+            </nb-card-body>
+          </nb-card>
+        </form>
+        <div class="col-md-6 offset-md-3">
+          <a routerLink="/au/login">Already have an account? Log in</a>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <!-- <div class="col-md-3">
+    <nb-card>
+      <nb-card-header>
+        Demo Account
+      </nb-card-header>
+      <nb-card-body>
+        <p>Admin Login</p>
+        <div>
+          <label for="email" class="label">Email:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="email">admin@weeazy.org</label>
+        </div>
+        <div>
+          <label for="email" class="label">Password:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="password">Demo@12345</label>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <p>Member Login</p>
+        <div>
+          <label for="email" class="label">Email:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="email">member@weeazy.org</label>
+        </div>
+        <div>
+          <label for="email" class="label">Password:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="password">Demo@12345</label>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div> -->
+</div>

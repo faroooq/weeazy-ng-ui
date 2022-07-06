@@ -1,0 +1,163 @@
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+    .ipad-portrait {}
+}
+
+@media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
+    .flex-direction {
+        flex-direction: row !important;
+    }
+}
+
+@media all and (device-width: 1180px) and (device-height: 820px) and (orientation:landscape) {
+    .flex-direction {
+        flex-direction: row !important;
+    }
+}
+
+a {
+    cursor: pointer;
+}
+
+.card-header-text {
+    font-size: 17.6px;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.header {
+    padding: 8px;
+}
+
+.top-space {
+    margin-top: 42px;
+}
+
+.filter-header {
+    color: #8f9bb3;
+    font-family: Open Sans, sans-serif;
+    font-size: 16px;
+    text-align: right;
+}
+
+.card-padding-right {
+    padding-right: 0.6rem;
+}
+
+.card-padding-left {
+    padding-left: 0;
+}
+
+.label-margin {
+    margin-bottom: 0.3rem;
+}
+
+.card-border {
+    border-left-style: solid;
+    border-left-width: 0.20rem;
+    margin-bottom: 5px !important;
+}
+
+.card-border-success {
+    border-left-color: #00D68F;
+}
+
+.card-border-info {
+    border-left-color: #0095ff;
+}
+
+.card-border-warning {
+    border-left-color: #FFAA00;
+}
+
+.card-border-urgent {
+    border-left-color: #FF3D71;
+}
+
+.card-sub-header-text {
+    font-weight: 600;
+    font-size: 14.4px;
+}
+
+.card-header {
+    border-left-style: solid;
+    border-left-width: 0.20rem;
+    border-left-color: #ffffff;
+    border-top-style: solid;
+    border-top-width: 0.20rem;
+    border-top-color: #ffffff;
+    padding-bottom: 0;
+    margin-bottom: 5px !important;
+}
+
+.ticket-image {
+    align-self: center;
+}
+
+.ticket-user {
+    font-weight: 200;
+    font-size: 16px;
+}
+
+.label-font {
+    font-weight: 400;
+    font-size: 14.4px;
+}
+
+.color-dull {
+    color: #8f9bb3;
+}
+
+hr {
+    margin-top: 0;
+}
+
+label {
+    margin-bottom: 0;
+}
+
+:host nb-tab {
+    padding: 0rem;
+    padding-top: 1rem;
+}
+
+::ng-deep .nb-theme-default nb-button-group [nbButtonToggle].appearance-filled.status-basic {
+    background-color: #edf1f7;
+    border: 1px solid #a4a4e1;
+}
+
+::ng-deep .nb-theme-corporate nb-button-group [nbButtonToggle].appearance-filled.status-basic {
+    background-color: #edf1f7;
+    border: 1px solid #a4a4e1;
+}
+
+.button-active {
+    color: #ffffff !important;
+    background-color: #42aaff !important;
+}
+
+.button-padding {
+    padding: 10px 22px !important;
+}
+
+// Floating button
+.float {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    top: 90px;
+    right: 25px;
+    background-color: #3366FF;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.float:hover {
+    background-color: #fff;
+    color: #3366FF;
+}
+
+.my-float {
+    margin-top: 18px;
+}

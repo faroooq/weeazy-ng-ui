@@ -1,0 +1,146 @@
+<div class="row show-grid">
+    <div class="col-12 col-md-8">
+        <nb-alert *ngIf="errorMsg" status="danger">Image size too large</nb-alert>
+        <nb-card>
+            <nb-card-body>
+                <nb-tabset>
+                    <nb-tab tabTitle="Preferences" tabIcon="briefcase-outline" responsive>
+                        <div class="form-group row">
+                            <label style="align-self: center;" for="team"
+                                class="label col-6 col-sm-3 col-form-label">Change
+                                Theme</label>
+                            <div class="col-6 col-sm-3">
+                                <nb-select size="small" fullWidth class="m-1" [selected]="currentTheme"
+                                    (selectedChange)="changeTheme($event)" status="primary">
+                                    <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme?.name }}
+                                    </nb-option>
+                                </nb-select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label style="align-self: center;" for="team"
+                                class="label col-6 col-sm-3 col-form-label">Fab
+                                Icon Display</label>
+                            <div class="col-6 col-sm-3">
+                                <nb-toggle [(checked)]="checked"></nb-toggle>
+                            </div>
+                        </div>
+                    </nb-tab>
+                    <nb-tab tabTitle="Security" tabIcon="shield-outline" responsive>
+                        <form [formGroup]="passwordForm">
+                            <nb-card>
+                                <nb-card-header>
+                                    Update password
+                                </nb-card-header>
+                                <nb-card-body>
+                                    <div class="form-group row">
+                                        <label for="password" class="label col-sm-4 col-form-label">Password</label>
+                                        <div class="col-sm-8">
+                                            <input class="org-color" formControlName="password" type="password" nbInput
+                                                fullWidth id="password" placeholder="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="retype-password" class="label col-sm-4 col-form-label">Re-type
+                                            Password</label>
+                                        <div class="col-sm-8">
+                                            <input class="org-color" formControlName="retypePassword" type="password"
+                                                nbInput fullWidth id="retypePassword" placeholder="retype-password">
+                                        </div>
+                                    </div>
+                                </nb-card-body>
+                                <nb-card-footer>
+                                    <nb-alert accent="danger">For security reasons, you need to log back in again.
+                                    </nb-alert>
+                                    <button type="button" nbButton status="primary"
+                                        (click)="onSubmitPassword()">Update</button>
+                                </nb-card-footer>
+                            </nb-card>
+                        </form>
+                    </nb-tab>
+                </nb-tabset>
+
+            </nb-card-body>
+        </nb-card>
+
+    </div>
+    <div class="col-12 col-md-4">
+        <form [formGroup]="detailsForm">
+            <nb-card>
+                <nb-card-header style="padding-bottom: 0;">
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="hoverable" for="fileInput">
+                                <img
+                                    [src]="employee?.photoUrl ? employee.photoUrl : '../../../assets/images/img_avatar.png'">
+                                <span class="hover-text">Change</span>
+                            </label>
+                            <input id="fileInput" type='file' (change)="onSelect($event)">
+                        </div>
+                        <div class="col-9" style="align-self: center;">
+                            <span style="font-size: 18px;">{{employee.firstName}} {{employee.lastName}}</span>
+                        </div>
+                        <div class="col-12">
+                            <label class="label" for="">Upload < 70kb image. </label>
+                        </div>
+                    </div>
+                </nb-card-header>
+                <nb-card-header>
+                    <div class="form-group row">
+                        <label for="organization" class="label col-sm-4 col-form-label">Org code</label>
+                        <div class="col-sm-8">
+                            <input class="org-color" formControlName="code" type="text" nbInput fullWidth
+                                id="organization" placeholder="Organization">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="team" class="label col-sm-4 col-form-label">Team</label>
+                        <div class="col-sm-8">
+                            <nb-select size="small" formControlName="team" placeholder="Select Team" fullWidth>
+                                <nb-option *ngFor="let team of filteredTeams | async" [value]="team?.name">{{
+                                    team.name
+                                    }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="role" class="label col-sm-4 col-form-label">Role</label>
+                        <div class="col-sm-8">
+                            <nb-select size="small" formControlName="role" placeholder="Select Role" fullWidth>
+                                <nb-option value="admin">Admin</nb-option>
+                                <nb-option value="member">Member</nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                </nb-card-header>
+                <nb-card-body>
+                    <div class="form-group row">
+                        <label for="email" class="label col-sm-4 col-form-label">Email</label>
+                        <div class="col-sm-8">
+                            <input formControlName="email" type="text" nbInput fullWidth id="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="firstName" class="label col-sm-4 col-form-label">Firstname</label>
+                        <div class="col-sm-8">
+                            <input formControlName="firstName" type="text" nbInput fullWidth id="firstName"
+                                placeholder="Firstname">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="lastName" class="label col-sm-4 col-form-label">Lastname</label>
+                        <div class="col-sm-8">
+                            <input formControlName="lastName" type="text" nbInput fullWidth id="lastName"
+                                placeholder="LastName">
+                        </div>
+                    </div>
+                </nb-card-body>
+                <nb-card-footer>
+                    <nb-alert accent="danger">For security reasons, you need to log back in again.</nb-alert>
+                    <button type="button" nbButton status="primary" (click)="onSubmitDetails()">Update</button>
+                </nb-card-footer>
+            </nb-card>
+        </form>
+    </div>
+</div>

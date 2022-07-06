@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <nb-card>
+            <nb-card-header>Contact Weeazy Desk</nb-card-header>
+            <nb-card-body>
+                <nb-alert status="danger" *ngIf="signupError">{{ signupError }}</nb-alert>
+                <form class="example-form" (submit)="onContact(contactForm)" #contactForm="ngForm">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="inputFirstName" class="label">First Name</label>
+                                <input name="firstName" type="text" nbInput fullWidth id="inputFirstName"
+                                    placeholder="First Name" ngModel #firstName="ngModel" required>
+                                <!-- <nb-alert status="danger" *ngIf="firstName.invalid">Enter first name</nb-alert> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="inputLastName" class="label">Last Name</label>
+                                <input name="lastName" type="text" nbInput fullWidth id="inputLastName"
+                                    placeholder="Last Name" ngModel #lastName="ngModel" required>
+                                <!-- <nb-alert status="danger" *ngIf="lastName.invalid">Enter last name</nb-alert> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="inputEmail" class="label">Email</label>
+                                <input name="email" type="email" nbInput fullWidth id="inputEmail" placeholder="Email"
+                                    ngModel #email="ngModel" required>
+                                <!-- <nb-alert status="danger" *ngIf="email.invalid">Enter email</nb-alert> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="type" class="label">Query</label>
+                                <nb-select size="small" ngModel #type="ngModel" id="type" name="type"
+                                    placeholder="Select Type" fullWidth>
+                                    <nb-option value="QUESTION">Question</nb-option>
+                                    <nb-option value="INCIDENT">Incident</nb-option>
+                                    <nb-option value="PROBLEM">Problem</nb-option>
+                                    <nb-option value="TASK">Task</nb-option>
+                                </nb-select>
+                                <!-- <nb-alert status="danger" *ngIf="type.invalid">Select Type</nb-alert> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="desc" class="label">Description</label>
+                            <textarea style="height: 120px;" name="desc" type="desc" id="desc" ngModel #desc="ngModel"
+                                nbInput fullWidth placeholder="Describe your question"></textarea>
+                            <!-- <nb-alert status="danger" *ngIf="desc.invalid">Enter Description</nb-alert> -->
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <button type="submit" nbButton status="primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <nb-card *ngIf="isLoading" [nbSpinner]="true" nbSpinnerSize="large" nbSpinnerStatus="primary">
+                        <nb-card-body>
+                        </nb-card-body>
+                    </nb-card>
+                </form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

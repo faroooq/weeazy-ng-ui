@@ -1,0 +1,15 @@
+<div>
+    <nb-alert status="danger" *ngIf="!projectId">You are not assigned to any organization. Please contact your admin.
+    </nb-alert>
+</div>
+<nb-card>
+    <nb-card-header>
+        Manage Units
+    </nb-card-header>
+
+    <nb-card-body>
+        <ng2-smart-table (createConfirm)="onAddConfirm($event)" (editConfirm)="onEditConfirm($event)"
+            [settings]="settings" [source]="teams" (deleteConfirm)="onDeleteConfirm($event)">
+        </ng2-smart-table>
+    </nb-card-body>
+</nb-card>

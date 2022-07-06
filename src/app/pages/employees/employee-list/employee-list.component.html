@@ -1,0 +1,27 @@
+<!-- Assigned Members -->
+<nb-alert status="danger" *ngIf="!projectId">You are not assigned to any organization. Please contact your admin.
+</nb-alert>
+<nb-card>
+  <nb-card-header>
+    Manage Members
+  </nb-card-header>
+  <nb-card-body>
+    <app-employees-table class="filter-margin" [teams]="teams" [isAssigned]="true" [employees]="assignedEmployees"
+      (assignEmployees)="onAssignEmployees($event)">
+    </app-employees-table>
+  </nb-card-body>
+</nb-card>
+
+<!-- UN-Assigned Members -->
+<div *ngIf="unassignedEmployees.length && projectId">
+  <nb-card>
+    <nb-card-header>
+      Unassigned Members
+    </nb-card-header>
+    <nb-card-body>
+      <app-employees-table class="filter-margin" [teams]="teams" [isUnAssigned]="true" [employees]="unassignedEmployees"
+        (unassignEmployees)="onUnassignEmployees($event)">
+      </app-employees-table>
+    </nb-card-body>
+  </nb-card>
+</div>

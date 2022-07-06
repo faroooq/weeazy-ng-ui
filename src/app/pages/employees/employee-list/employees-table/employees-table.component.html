@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-6 col-md-3">
+    <form class="">
+      <nb-select size="small" (selectedChange)="updateEmployees($event, 'role')" placeholder="Change Role" fullWidth
+        #selectRole>
+        <nb-option *ngFor="let role of roles" [value]="role">{{ role }}</nb-option>
+      </nb-select>
+    </form>
+  </div>
+  <div class="col-6 col-md-3">
+    <form *ngIf="teams" class="">
+      <nb-select size="small" (selectedChange)="updateEmployees($event, 'team')" name="newTeam"
+        placeholder="Change Team" fullWidth #selectTeam>
+        <nb-option *ngFor="let team of teams" [value]="team">{{ team.name }}</nb-option>
+        <nb-option *ngIf="isAssigned" [value]="{}" class="red-option">Unassign members</nb-option>
+      </nb-select>
+    </form>
+  </div>
+</div>
+
+<ng2-smart-table [settings]="settings" [source]="dataSource" (userRowSelect)="onUserRowSelect($event)">
+</ng2-smart-table>

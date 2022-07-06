@@ -1,0 +1,131 @@
+<nb-card class="col-md-12 col-lg-12 col-xxxl-12">
+  <div class="mt-3">
+    <nb-alert status="danger" *ngIf="createError">{{ createError }}</nb-alert>
+    <form class="m-3" [formGroup]="projectForm" (ngSubmit)="onNewProject()">
+      <nb-stepper orientation="horizontal">
+        <nb-step [label]="labelOne">
+          <ng-template #labelOne>First step</ng-template>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="StateName" class="label">State Name</label>
+                <input type="text" nbInput fullWidth id="StateName" placeholder="ex: Andhra Pradesh" name="title"
+                  formControlName="title" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="StateCode" class="label">State Code</label>
+                <input class="org-color" type="text" nbInput fullWidth id="StateCode" placeholder="ex: AP" name="code"
+                  formControlName="code">
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="StateDesc" class="label">Short Description</label>
+                <textarea id="StateDesc" fullWidth placeholder="Purpose of creating the State?" nbInput
+                  name="description" id="description" cols="20" rows="6" formControlName="description"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <button nbButton nbStepperPrevious>prev</button>
+                <button nbButton nbStepperNext>next</button>
+              </div>
+            </div>
+          </div>
+        </nb-step>
+        <nb-step [label]="labelTwo">
+          <ng-template #labelTwo>Second step</ng-template>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div formArrayName="teams">
+                  <div [formGroupName]="i" *ngFor="let team of controls; let i = index">
+                    <label for="Create Unit" class="label">Create Unit</label> &nbsp;
+                    <div class="row">
+                      <div class="col-8 col-lg-2 col-sm-2">
+                        <div class="form-group">
+                          <input nbInput type="text" placeholder="ex: Kurnool Unit" formControlName="name" />
+                        </div>
+                      </div>
+                      <!-- DON'T DELETE THE BELOW CODE. IT IS FEATURE IMPL TO CREATE MULTIPLE TEAMS -->
+                      <div class="col-4 col-lg-2 col-sm-2">
+                        <div class="form-group">
+                          <nb-actions size="small">
+                            <nb-action icon="person-add-outline" (click)="onAddTeam()"></nb-action>
+                            <nb-action icon="trash-2-outline" (click)="onDeleteTeam(i)"></nb-action>
+                          </nb-actions>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button nbButton nbStepperPrevious>prev</button>
+          <button nbButton nbStepperNext>next</button>
+        </nb-step>
+        <nb-step label="Third step">
+          <div *ngFor="let team of controls; let teamIndex = index">
+            <div *ngIf="team.value.name" (opened)="onExpansionPanelOpened()"
+              (closed)="onExpansionPanelClosed(teamIndex)">
+              <nb-card-header class="header-padding">Team:&nbsp; {{ team.value.name }}</nb-card-header>
+              <nb-card-body>
+                <div class="row">
+                  <div class="col-sm-6 form-padding">
+                    <input nbInput fullWidth (input)="filterEmployees(searchEmployee.value, teamIndex)"
+                      autocomplete="off" #searchEmployee placeholder="Find member" />
+                  </div>
+                  <div class="col-sm-6 form-padding">
+                    <div dense>
+                      <button nbButton fullWidth
+                        *ngFor="let employee of filteredEmployees[teamIndex]; let employeeIndex = index"
+                        (click)="onAddEmployeeToTeam(employee, teamIndex)">
+                        <span class="email wrapword">{{ employee.firstName }} {{ employee.lastName }} - {{
+                          employee.email
+                          }}</span>&nbsp;
+                        <nb-action icon="person-add-outline"></nb-action>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div *ngFor="let employee of assignedEmployees[teamIndex]; let assignedEmployeeIndex = index">
+                  <div class="row">
+                    <div class="col-md-6 form-padding">
+                      <button nbButton fullWidth
+                        (click)="onDeleteEmployeeFromTeam(employee, teamIndex, assignedEmployeeIndex)">
+                        <nb-action icon="close-square-outline"></nb-action>&nbsp;
+                        <span class="email wrapword">{{ employee.firstName }} {{ employee.lastName }} - {{
+                          employee.email
+                          }}</span>
+                      </button>
+                    </div>
+                    <!-- Enable and fix issues to create multiple States by SuAdmin. -->
+                    <!-- DON'T DELETE THE BELOW CODE -->
+                    <div class="col-md-6 form-padding">
+                      <nb-select (selectedChange)="changeEmployeeRole($event, employee)" size="small"
+                        placeholder="Select Role" fullWidth [(value)]="employee.role" #selectRole>
+                        <nb-option value="suadmin">Super Admin</nb-option>
+                        <nb-option value="admin">Admin</nb-option>
+                        <nb-option value="member">Member</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                </div>
+              </nb-card-body>
+            </div>
+          </div>
+          <button nbButton nbStepperPrevious>prev</button>
+          <button status="primary" type="submit" nbButton>Create</button>
+        </nb-step>
+      </nb-stepper>
+    </form>
+  </div>
+</nb-card>

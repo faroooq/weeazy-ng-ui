@@ -1,0 +1,33 @@
+<div class="header-container">
+  <div class="logo-container mr-5">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <a style="font-weight: 600;" class="logo" href="#" (click)="navigateHome()">
+      <div>Weeazy Desk</div>
+      <!-- <img width="170%" src="../../assets/images/JIH-Logo.png" alt=""> -->
+      <!-- <sup *ngIf="!mobileView">
+        <nb-tag size="tiny" status="danger" appearance="outline" text="beta"></nb-tag>
+      </sup> -->
+    </a>
+  </div>
+
+</div>
+
+<div class="header-container">
+  <nb-select size="small" class="m-1" [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
+    <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
+  </nb-select>
+  <nb-select size="small" class="m-1" [disabled]="!projectId" filled placeholder="New"
+    (selectedChange)="newItem($event)" status="primary">
+    <nb-option *ngFor="let new of newItems" [value]="new.link"> {{ new.name }}</nb-option>
+  </nb-select>
+  <nb-actions size="small">
+    <nb-action class="control-item" icon="bell-outline"></nb-action>
+    <nb-action class="user-action">
+      <nb-user [nbContextMenu]="mobileView? mobileMenu: userMenu" [onlyPicture]="mobileView" [name]="user?.firstName"
+        [picture]="user?.photoUrl">
+      </nb-user>
+    </nb-action>
+  </nb-actions>
+</div>

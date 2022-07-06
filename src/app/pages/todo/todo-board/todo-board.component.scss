@@ -1,0 +1,108 @@
+::ng-deep .ql-snow .ql-editor pre.ql-syntax {
+    background-color: #f6f6f6;
+    color: #000000;
+    overflow: visible;
+    padding: 1rem;
+}
+
+.scroll-bar {
+    min-width: 20rem;
+    display: block;
+    width: 200px;
+    height: 330px;
+    overflow-y: scroll;
+}
+
+.scroll-bar-mobile {
+    min-width: 20rem;
+    display: block;
+    width: 200px;
+    height: 330px;
+    overflow-y: scroll;
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait) {
+    .scroll-bar-mobile {
+        min-width: 20rem;
+        display: block;
+        width: 200px;
+        height: 330px;
+        overflow-y: scroll;
+    }
+}
+
+@media all and (device-width: 820px) and (device-height: 1180px) and (orientation:portrait) {
+    .scroll-bar-mobile {
+        min-width: 20rem;
+        display: block;
+        width: 200px;
+        height: 330px;
+        overflow-y: scroll;
+    }
+}
+
+@media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
+    .scroll-bar-mobile {
+        min-width: 20rem;
+        display: block;
+        width: 200px;
+        height: 330px;
+        overflow-y: scroll;
+    }
+}
+
+@media all and (device-width: 1180px) and (device-height: 820px) and (orientation:landscape) {
+    .scroll-bar-mobile {
+        min-width: 20rem;
+        display: block;
+        width: 200px;
+        height: 330px;
+        overflow-y: scroll;
+    }
+}
+
+textarea {
+    height: 120px;
+}
+
+.card-border-success {
+    border-top-color: #00D68F;
+}
+
+.card-border-info {
+    border-top-color: #0095ff;
+}
+
+.card-border-warning {
+    border-top-color: #FFAA00;
+}
+
+.card-border-urgent {
+    border-top-color: #FF3D71;
+}
+
+.card-border {
+    border-top-style: solid;
+    border-top-width: 0.15rem;
+    margin-bottom: 5px !important;
+}
+
+::ng-deep .smooth-dnd-container {
+    width: 100% !important;
+    min-width: 0px;
+}
+
+.time-header {
+    font-weight: 200;
+    font-size: 12.8px;
+}
+
+.card-sub-header-text {
+    font-weight: 500;
+    font-size: 12.8px;
+    word-break: break-word;
+}
+
+.color-dull {
+    color: #8f9bb3;
+}
