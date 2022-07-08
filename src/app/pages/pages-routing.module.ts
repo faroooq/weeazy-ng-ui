@@ -32,7 +32,7 @@ const routes: Routes = [{
     //   data: { roles: ["all"] },
     // },
     {
-      path: "states",
+      path: "org",
       loadChildren: () => import("./projects/projects.module").then((m) => m.ProjectsModule),
       canActivate: [AuthGuard],
       canLoad: [AuthGuard],

@@ -37,12 +37,12 @@ export const MENU_ITEMS_SU_ADMIN: NbMenuItem[] = [
     group: true,
   },
   {
-    title: 'States',
-    link: '/ps/states',
+    title: 'Organization',
+    link: '/ps/org',
     icon: 'cube',
   },
   {
-    title: 'Units',
+    title: 'Teams',
     link: '/ps/teams',
     icon: 'pantone',
   },
@@ -90,7 +90,7 @@ export const MENU_ITEMS_ADMIN: NbMenuItem[] = [
     group: true,
   },
   {
-    title: 'Units',
+    title: 'Teams',
     link: '/ps/teams',
     icon: 'pantone',
   },

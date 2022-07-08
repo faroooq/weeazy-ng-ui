@@ -26,7 +26,7 @@ const routes: Routes = [
         component: SignupComponent
       },
       {
-        path: "ps/states/new",
+        path: "ps/org/new",
         component: NewProjectComponent,
         // canActivate: [AuthGuard],
         // canLoad: [AuthGuard],

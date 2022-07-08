@@ -6,6 +6,7 @@ import { NbComponentStatus, NbToastrService } from "@nebular/theme";
 import { Employee } from "../../../../assets/@theme/models/employee.model";
 import { ProjectService } from "../../../../assets/@theme/services/project.service";
 import { EmployeeService } from "../../../../assets/@theme/services/employee.service";
+import { AuthService } from "../../../../assets/@theme/services/auth.service";
 
 @Component({
   selector: "app-new-project",
@@ -22,15 +23,19 @@ export class NewProjectComponent implements OnInit {
   code: any;
   createError: string;
   projectCode: any;
+  orgCodeExist: boolean;
+  employee: any;
 
   constructor(
     private projectService: ProjectService,
     private employeeService: EmployeeService,
+    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: NbToastrService) { }
 
   ngOnInit(): void {
+    this.employee = this.authService.getAuthData().employee;
     this.route.queryParams.subscribe((params) => {
       this.projectCode = params.projectCode;
       this.initForm(params.projectCode);
@@ -83,7 +88,6 @@ export class NewProjectComponent implements OnInit {
         }
 
         let assignedEmployees = this.assignedEmployees[i];
-        console.log(assignedEmployees)
         if (assignedEmployees.length < 1) {
           this.showToast('warning', 'Add atleast one member to the team');
           return;
@@ -98,11 +102,13 @@ export class NewProjectComponent implements OnInit {
           this.showToast('warning', 'Team should have atleast one admin');
           return;
         }
+        assignedEmployees.push(this.employee)
         for (let j = 0; j < assignedEmployees.length; j++) {
           teams[i].employees.push({ _id: assignedEmployees[j]._id, role: assignedEmployees[j].role });
         }
       }
-      this.projectService.createProject(this.projectForm.value, this.projectCode).subscribe(({ message, project }) => {
+      let code = <FormControl>this.projectForm.get("code").value;
+      this.projectService.createProject(this.projectForm.value, code + '').subscribe(({ message, project }) => {
         this.showToast('success', 'Organization created successfully');
         if (message) this.router.navigate(["/au/login"], { queryParams: { orgcreate: true } });
       });
@@ -131,11 +137,30 @@ export class NewProjectComponent implements OnInit {
     this.filteredEmployees[index] = this.employeeService.filterEmployeesArray(this.employees, value);
 
     if (this.filteredEmployees[index].length === 0) {
-      this.employeeService.findEmployees(value, this.excludedIds, "true", "true").subscribe((employees) => {
+      let code = <FormControl>this.projectForm.get("code").value;
+      this.employeeService.findEmployees(value, code + '', "", "true").subscribe((employees) => {
         this.filteredEmployees[index].push(...employees);
       });
     }
   }
+
+  cacheProjectCode() {
+    let code = <FormControl>this.projectForm.get("code").value;
+    // Checking whether the org already exists or not
+    this.projectService.getProject(code + '').subscribe((project) => {
+      if (!project || project === null) {
+      } else {
+        this.orgCodeExist = true;
+        this.createError = 'Organization code already exists. Choose different code.';
+        return false;
+      }
+    });
+  }
+
+  clearError() {
+    this.createError = "";
+  }
+
   onAddEmployeeToTeam(employee, teamIndex) {
     this.excludedIds.push(employee._id);
     for (let emps of this.filteredEmployees) {

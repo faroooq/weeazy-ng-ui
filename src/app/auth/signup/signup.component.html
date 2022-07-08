@@ -63,7 +63,7 @@
                 <nb-radio [checked]="!options" (click)="toggle()">Create your Organization
                 </nb-radio>
                 <input nbPopover="Share org code only with your team" nbPopoverTrigger="hover"
-                  nbPopoverPlacement="bottom" nbInput fullWidth placeholder="ex: JIH-123" type="text" name="code2"
+                  nbPopoverPlacement="bottom" nbInput fullWidth placeholder="ex: Org-123" type="text" name="code2"
                   ngModel #code2="ngModel" required [disabled]="options" status="info">
                 <nb-alert status="danger" *ngIf="code2.invalid">Enter organization code</nb-alert>
               </div>
@@ -72,7 +72,7 @@
               <div class="form-group">
                 <nb-radio [checked]="options" (click)="toggle()">Join as Member</nb-radio>
                 <input nbPopover="Get your org code from admin" nbPopoverTrigger="hover" nbPopoverPlacement="bottom"
-                  nbInput fullWidth placeholder="ex: JIH-123" type="text" name="code1" ngModel #code1="ngModel" required
+                  nbInput fullWidth placeholder="ex: Org-123" type="text" name="code1" ngModel #code1="ngModel" required
                   [disabled]="!options" status="info" />
                 <nb-alert status="danger" *ngIf="code1.invalid">Enter organization code</nb-alert>
               </div>

@@ -1,23 +1,23 @@
 <nb-card class="col-md-12 col-lg-12 col-xxxl-12">
   <div class="mt-3">
     <nb-alert status="danger" *ngIf="createError">{{ createError }}</nb-alert>
-    <form class="m-3" [formGroup]="projectForm" (ngSubmit)="onNewProject()">
+    <form class="m-3" [formGroup]="projectForm">
       <nb-stepper orientation="horizontal">
         <nb-step [label]="labelOne">
           <ng-template #labelOne>First step</ng-template>
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="StateName" class="label">State Name</label>
-                <input type="text" nbInput fullWidth id="StateName" placeholder="ex: Andhra Pradesh" name="title"
+                <label for="OrganizationName" class="label">Organization Name</label>
+                <input type="text" nbInput fullWidth id="OrganizationName" placeholder="Organization Name" name="title"
                   formControlName="title" />
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="StateCode" class="label">State Code</label>
-                <input class="org-color" type="text" nbInput fullWidth id="StateCode" placeholder="ex: AP" name="code"
-                  formControlName="code">
+                <label for="OrganizationCode" class="label">Organization Code</label>
+                <input class="org-color" type="text" nbInput fullWidth id="OrganizationCode"
+                  placeholder="Organization Code" name="code" formControlName="code">
               </div>
             </div>
 
@@ -25,8 +25,8 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
-                <label for="StateDesc" class="label">Short Description</label>
-                <textarea id="StateDesc" fullWidth placeholder="Purpose of creating the State?" nbInput
+                <label for="OrganizationDesc" class="label">Short Description</label>
+                <textarea id="OrganizationDesc" fullWidth placeholder="Purpose of creating the Organization?" nbInput
                   name="description" id="description" cols="20" rows="6" formControlName="description"></textarea>
               </div>
             </div>
@@ -34,8 +34,8 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
-                <button nbButton nbStepperPrevious>prev</button>
-                <button nbButton nbStepperNext>next</button>
+                <button nbButton nbStepperPrevious (click)="clearError()">prev</button>
+                <button nbButton nbStepperNext (click)="cacheProjectCode()">next</button>
               </div>
             </div>
           </div>
@@ -47,11 +47,11 @@
               <div class="form-group">
                 <div formArrayName="teams">
                   <div [formGroupName]="i" *ngFor="let team of controls; let i = index">
-                    <label for="Create Unit" class="label">Create Unit</label> &nbsp;
+                    <label for="Create Team" class="label">Create Team</label> &nbsp;
                     <div class="row">
                       <div class="col-8 col-lg-2 col-sm-2">
                         <div class="form-group">
-                          <input nbInput type="text" placeholder="ex: Kurnool Unit" formControlName="name" />
+                          <input nbInput type="text" placeholder="Team" formControlName="name" />
                         </div>
                       </div>
                       <!-- DON'T DELETE THE BELOW CODE. IT IS FEATURE IMPL TO CREATE MULTIPLE TEAMS -->
@@ -69,8 +69,8 @@
               </div>
             </div>
           </div>
-          <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          <button nbButton nbStepperPrevious (click)="clearError()">prev</button>
+          <button nbButton nbStepperNext (click)="clearError()">next</button>
         </nb-step>
         <nb-step label="Third step">
           <div *ngFor="let team of controls; let teamIndex = index">
@@ -81,7 +81,7 @@
                 <div class="row">
                   <div class="col-sm-6 form-padding">
                     <input nbInput fullWidth (input)="filterEmployees(searchEmployee.value, teamIndex)"
-                      autocomplete="off" #searchEmployee placeholder="Find member" />
+                      autocomplete="off" #searchEmployee placeholder="Search with username or email" />
                   </div>
                   <div class="col-sm-6 form-padding">
                     <div dense>
@@ -123,7 +123,7 @@
             </div>
           </div>
           <button nbButton nbStepperPrevious>prev</button>
-          <button status="primary" type="submit" nbButton>Create</button>
+          <button status="primary" (click)="onNewProject()" nbButton>Create</button>
         </nb-step>
       </nb-stepper>
     </form>

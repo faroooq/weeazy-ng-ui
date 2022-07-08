@@ -88,7 +88,7 @@ export class AuthService {
         if (response.user?.role === 'member') {
           this.router.navigate(['/ps/dashboard']);
         } else {
-          this.router.navigate(["/ps/states/new"], { queryParams: { projectCode: response.user.code } });
+          this.router.navigate(["/ps/org/new"], { queryParams: { projectCode: response.user.code } });
         }
       }
     }
@@ -117,11 +117,11 @@ export class AuthService {
   }
 
   getProjectId() {
-    return this.getAuthData().employee.team?.project._id;
+    return this.getAuthData().employee.team[0]?.project?._id;
   }
 
   getProjectCode() {
-    return this.getAuthData().employee.team?.project.code;
+    return this.getAuthData().employee.team[0]?.project?.code;
   }
 
   hasRole(role: string) {

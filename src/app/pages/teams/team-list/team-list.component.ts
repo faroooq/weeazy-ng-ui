@@ -41,23 +41,23 @@ export class TeamListComponent implements OnInit, OnDestroy {
     },
     columns: {
       name: {
-        title: 'Unit Name',
+        title: 'Team Name',
         type: 'string',
       },
       employees: {
-        title: 'Unit Members',
+        title: 'Team Members',
         type: 'string',
         editable: false,
         addable: false,
       },
       openTickets: {
-        title: 'Open Tasks',
+        title: 'Open Tickets',
         type: 'number',
         editable: false,
         addable: false,
       },
       closedTickets: {
-        title: 'Closed Tasks',
+        title: 'Closed Tickets',
         type: 'number',
         editable: false,
         addable: false,

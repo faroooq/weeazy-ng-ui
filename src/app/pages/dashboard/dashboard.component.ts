@@ -92,7 +92,7 @@ export class DashboardComponent implements OnInit {
     }
     // else {
     //   if (employee.role !== 'member') {
-    //     this.router.navigate(["/ps/states/new"], { queryParams: { projectCode: employee.code } });
+    //     this.router.navigate(["/ps/org/new"], { queryParams: { projectCode: employee.code } });
     //   }
     // }
   }

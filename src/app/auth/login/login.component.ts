@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     this.signupMessage = "";
     this.route.queryParams.subscribe((params) => {
       if (params.loginError) {
-        this.loginError = "Wrong username or password.";
+        this.loginError = "Wrong email or password.";
       }
       if (params.signup) {
         this.signupMessage = "User successfully created.";
