@@ -82,7 +82,7 @@ export class AuthService {
       this.loggedEmployee = response.user;
       // const expirationDate = new Date(new Date().getTime() + expiresInDuration * 1000);
       this.saveAuthData(token, this.loggedEmployee);
-      if (response.user?.team) {
+      if (response.user?.team.length > 0) {
         this.router.navigate(['/ps/dashboard']);
       } else {
         if (response.user?.role === 'member') {

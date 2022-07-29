@@ -102,7 +102,6 @@ export class NewProjectComponent implements OnInit {
           this.showToast('warning', 'Team should have atleast one admin');
           return;
         }
-        assignedEmployees.push(this.employee)
         for (let j = 0; j < assignedEmployees.length; j++) {
           teams[i].employees.push({ _id: assignedEmployees[j]._id, role: assignedEmployees[j].role });
         }

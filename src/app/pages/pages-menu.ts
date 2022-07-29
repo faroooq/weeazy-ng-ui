@@ -36,11 +36,11 @@ export const MENU_ITEMS_SU_ADMIN: NbMenuItem[] = [
     title: 'ADMIN',
     group: true,
   },
-  {
-    title: 'Organization',
-    link: '/ps/org',
-    icon: 'cube',
-  },
+  // {
+  //   title: 'Organization',
+  //   link: '/ps/org',
+  //   icon: 'cube',
+  // },
   {
     title: 'Teams',
     link: '/ps/teams',
